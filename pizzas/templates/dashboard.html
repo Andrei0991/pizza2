@@ -1,0 +1,140 @@
+{% load static %}
+
+{% include 'main.html' %}
+
+
+{% block content %}
+
+<style>
+  .card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+  }
+</style>
+
+<div class="container">
+
+    <div class="row">
+      
+      <div class="col-lg-3">
+
+        <h1 class="my-4">Choose your pizza !</h1>
+        
+          
+        <div class="list-group">
+          <div class="card">
+            <div class="card-body">
+              <b>Your cart:</b>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              {% for product in order_products %}
+              <p>{{product.product.name}} - {{product.quantity}} - {{product.size}}</p> <p><a role='button' class='btn-sm btn-danger' href="{% url 'removefromcart' product.id %}">-</a> <a role='button' class='btn-sm btn-info' href="{% url 'additemtocart' product.id %}">+</a></p>
+              {% endfor %}
+              <!-- <a class='btn btn-danger'>-</a>
+              <a class='btn btn-info'>+</a> -->
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              Order status:
+            </div>
+          
+            <div class="card-body">
+              <h3 class="card-title">{{order.status}}</h3>
+            </div>
+            
+          </div>
+          <div class="card">
+            <div class="card-body">
+              Total Price:
+            </div>
+            
+            <div class="card-body">
+              
+              <h3 class="card-title">{{total_price}} $</h3>
+              
+            </div>
+            
+          </div>
+        </div>
+      </div>
+          
+          
+        
+
+     
+
+      <div class="col-lg-9">
+
+        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+              <img class="d-block img-fluid" style="width:100%" src="{% static 'pizzas/images/pizza1.jpeg' %}" alt="First slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" style="width:100%" src="{% static 'pizzas/images/pizza2.jpeg' %}" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" style="width:100%" src="{% static 'pizzas/images/pizza3.jpeg' %}" alt="Third slide">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+
+        <div class="row">
+          {% for x in products %}
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+              <a href="{% url 'product' x.product.id %}"><img class="card-img-top" src= "{{x.product.fields.url}}" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="#">{{x.product.name}}</a>
+                </h4>
+                
+                <br>
+                
+                <form action='{% url "addtocart" %}' method="POST"> 
+                  {% csrf_token %}
+                  {{x.form.as_p}}
+                  <button type='submit' value='Submit'>Adauga</button>
+                </form>
+              </div>
+            </div>
+            
+          </div>
+          {% endfor %}
+          
+        </div>
+        
+
+      </div>
+      
+
+    </div>
+    
+
+</div>
+
+  
+{% endblock %}
+              
+               
+                
+                
+                
+                
+              
